@@ -7,9 +7,11 @@ headers = {
     'x-rapidapi-key':
     }
 
-conn.request("GET", "/market/get-quotes?region=US&lang=en&symbols=BAC%252CKC%253DF%252C002210.KS%252CIWM%252CAMECX", headers=headers)
+def getQuotesAPI(str):
+        conn.request("GET", str, headers=headers)
 
-res = conn.getresponse()
-data = res.read()
+        res = conn.getresponse()
+        data = res.read()
 
-raw_data = data.decode("utf-8")
+        raw_data = data.decode("utf-8")
+        return(raw_data)
