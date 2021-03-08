@@ -2,8 +2,8 @@
 Repo using RAPID API Yahoo API to get market data
 
 TODO
-Make Python Scripts executable as functions and pass in tickers as parameter
-Load in Reference data and save to disk
+Load in Reference data file/combine with getRefData and save to disk
+Use reference data to capture quotes by sector etc
 Integrate with IEX API to capture dividends info etc
 
 Work with the other RAPID API commands
