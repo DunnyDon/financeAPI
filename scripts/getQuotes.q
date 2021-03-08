@@ -1,8 +1,8 @@
 \l p.q
-getQuotes:{
+getQuotes:{[syms]
 	system"l getQuotes.p";
 	getQ:.p.qcallable .p.get`getQuotesAPI;
-	syms:`BAC`CKC`CIWM`CAMECX;
+
 	quotes:getQ raze  "/market/v2/get-quotes?region=US&symbols=","%2C" sv string syms;
 	quotes: getQ raze "/market/v2/get-quotes?region=US&symbols=AMD%2CIBM%2CAAPL";
 
@@ -15,6 +15,6 @@ getQuotes:{
 	}
 
 
-updateQuotes:{
-        `time xasc x uj getQuotes[]
+updateQuotes:{[syms]
+        `time xasc x uj getQuotes[syms]
         }

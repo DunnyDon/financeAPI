@@ -5,6 +5,7 @@ TODO
 Load in Reference data file/combine with getRefData and save to disk
 Use reference data to capture quotes by sector etc
 Integrate with IEX API to capture dividends info etc
+Use https://exchangeratesapi.io/ for FX rates
 
 Work with the other RAPID API commands
 
