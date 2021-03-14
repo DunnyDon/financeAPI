@@ -9,5 +9,6 @@ getHistEuroRates:{[sd;ed;ccy]
   sd:"-" sv "." vs string sd;
   ed:"-" sv "." vs string ed;
  data:.j.k raze system raze"curl -X GET \"https://api.exchangeratesapi.io/history?start_at=",sd,"&end_at=",ed,ccys,"\""; 
- data
+ data:flip `ccy`date`rate!raze each (enlist(count data`rates)#/:key flip data`rates),({(count cols value x)#/:key x};{value flip value x})@\:data`rates;
+ `date xcols update date:"D"$string date,ccy: `$("EUR/",/:string ccy) from data
  }
