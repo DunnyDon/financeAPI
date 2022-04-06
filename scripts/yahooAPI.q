@@ -9,11 +9,14 @@ getStatsQ:{
  }
 
 /Quotes API
-getQuotes:{[syms]
+getQuotes:{[syms;region]
         getQ:.p.qcallable .p.get`getQuotesAPI;
-
-        quotes:getQ raze  "/market/v2/get-quotes?region=US&symbols=","%2C" sv string syms;
-        quotes: getQ raze "/market/v2/get-quotes?region=US&symbols=AMD%2CIBM%2CAAPL";
+	/@TODO change to dictionary
+	if[region~"nyse";region:"US"];
+	if[region~"paris";region:"FR"];
+	if[region~"lse";region:"BR"];
+        quotes:getQ raze  "/market/v2/get-quotes?region=",region,"&symbols=","%2C" sv string syms;
+        /quotes: getQ raze "/market/v2/get-quotes?region=US&symbols=AMD%2CIBM%2CAAPL";
 
         quotes: (uj/) flip value (flip .j.k quotes)`result;
         quotes:?[quotes;();0b;cl!cl: `symbol`bid`bidSize`ask`askSize`fullExchangeName`quoteType`currency`longName`market`bookValue`exchangeDataDelayedBy,cls where any (string cls:cols quotes) like/:("pre*";"post*";"reg*";"fifty*";"twoH*";"price*";"divid*";"eps*")];
