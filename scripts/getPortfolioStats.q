@@ -1,4 +1,5 @@
 \c 40 220
+system"cd /home/conordonohue/financeAPI/scripts/";
 \l getCrypto.q
 \l getFxRates.q
 \l yahooAPI.q
@@ -18,3 +19,13 @@ data:delete rate from update ccy:`USD,bep:bep%rate from (update upper ccy from h
 data:data lj `sym xkey  quotes;
 cryptoPrices: `sym xcols update sym:upper cpto from select price:price_usd from getCryptoPrices each cpto:exec lower sym from data where asset=`crypto;
 data:update ProfLoss:qty*price-bep from data lj 1!cryptoPrices;
+
+
+
+data2:raze "Total Profit and Loss today is $", string exec sum ProfLoss from data;
+data:delete brokerID,brokerName,account,ccy from data;
+(`$":/home/conordonohue/db/holdings/") upsert .Q.en[`$":/home/conordonohue/db/"] update time:.z.P from data;
+/acting very weird breaks after working
+/switch to attaching csv with portfolio breakdown and text summary of performance maybe?
+system raze "curl --request POST --url https://api.sendgrid.com/v3/mail/send --header 'Authorization' --header 'Content-Type: application/json' --data '{\"personalizations\":[{\"to\":[{\"email\":\"conordonohue@gmail.com\",\"name\":\"Dunny\"}],\"subject\":\"Personal Trading Summary ",string[.z.D],"\"}],\"content\": [{\"type\": \"text/plain\", \"value\": ",(.Q.s .Q.s data2),"}],\"attachments\": [{\"content\":\"",(.Q.btoa .Q.s data),"\",\"type\": \"text/csv\", \"filename\": \"holdings.csv\"}],\"from\":{\"email\":\"conordonohue@gmail.com\",\"name\":\"GCP Personal Trading\"},\"reply_to\":{\"email\":\"conordonohue@gmail.com\",\"name\":\"GCP Personal Trading\"}}'"
+\\
