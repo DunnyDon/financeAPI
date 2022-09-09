@@ -41,3 +41,7 @@ calcPortfolioRisk:{
          mmu calcCorrMatrix[])
   mmu flip value flip wgtMatrix:select  wgt:0.01*wgt*wSdev from (update wSdev:(dev ProfLoss)%avg ProfLoss by sym from getWgts[]) where time=max time
  };
+
+calcMomentum:{[symSel]
+ update price:0f from (update deltas price from 0!select  first price by 10 xbar `date$time from holdings where sym=symSel) where i=0
+	};
